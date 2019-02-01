@@ -1,13 +1,15 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // The following is a sample component; replace with your own component
-const foo = <p>Hello world!</p>
+const Foo = () => (
+    <p>Sample Text</p>
+);
 
 const AppRouter = () => (
     <BrowserRouter>
         <Switch>
-            <Route path='/' component={ foo } exact={ true } />
+            <Route path='/' component={ Foo }  exact={ true } />
         </Switch>
     </BrowserRouter>
 );
