@@ -1,39 +1,43 @@
 import React from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 import {
   ContextWrapper, Card, UL, LI, SelectionContainer, SelectionCard, CollapsedView, DefaultView,
-  ShowSelection, SelectionHeader, SelectedCircleButton
+  ShowSelection, SelectionHeader, SelectedCircleButton, getItemStyle
 } from './styles';
 
-class DnDContextComponent extends React.Component {
+export default class DnDContextComponent extends React.Component {
 	
 	constructor(props) {
-		super(props);
+    console.log(props);
+    super(props);
 		this.state = {
-      open: false,
-      closeDrawer: false,
-      spread: null
+      open: null
     };
-	}
+  }
 	
 	render() {
     const selection = [1];
     const isOver = false;
-    const { open, closeDrawer, spread } = this.state;
+    const { open } = this.state;
 
-    const ExpandedDiv = data => (
-      <ShowSelection>
-        <SelectionHeader>
-          <h4>Manage selections</h4>
-          <p onClick={() => this.closeSelection()} > x </p>
-        </SelectionHeader>
-          <UL>
-            <LI>1</LI>
-          </UL>
-      </ShowSelection>
-    );
+    const data = [
+      {
+        id: 1,
+        key: 1,
+        value: 1
+      },
+      {
+        id: 2,
+        key: 2,
+        value: 2
+      },
+      {
+        id: 3,
+        key: 3,
+        value: 3
+      }
+    ];
 
     const OnHoverDiv = (
       <CollapsedView isHover={true}>
@@ -54,8 +58,8 @@ class DnDContextComponent extends React.Component {
           {data.length > 0 ? (
             <SelectedCircleButton
               onClick={() => this.openSelection()}
-              spread={spread === true}
-              contract={spread === false}
+              spread={open === true}
+              contract={open === false}
             >
               {data.length}
             </SelectedCircleButton>
@@ -66,34 +70,73 @@ class DnDContextComponent extends React.Component {
       </CollapsedView>
     );
 
+    const DraggableDiv = (item, index) => 
+      <Draggable
+        key={item.id}
+        draggableId={item.id}
+        index={index}
+      >
+        {(provided, snapshot) => (
+          <LI>
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={
+                getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )
+              }
+            >
+            {item.id}
+            </div>
+          </LI>
+        )}
+      </Draggable>
+
     return (
-			<ContextWrapper>
-        <h2>Beautiful React Drag and Drop</h2>
-        <Card>
-            <UL>
-              <LI>1</LI>
-              <LI>1</LI>
-              <LI>1</LI>
-              <LI>1</LI>
-              <LI>1</LI>
-            </UL>
-        </Card>
 
-        <SelectionContainer>
-          <SelectionCard>
-            {
-              isOver
-              ? OnHoverDiv
-              : open
-              ? ExpandedDiv(selection)
-              : CollapsedDiv(selection)
-            }
-          </SelectionCard>
-        </SelectionContainer>
+        <ContextWrapper>
+          <h2>Beautiful React Drag and Drop</h2>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+              >
+              {provided.placeholder}
+              <Card>
+                <UL>
+                {
+                  data.map((item, index) => (
+                    DraggableDiv(item, index)
+                ))}
+                </UL>
+              </Card>
+              </div>
+            )}
+          </Droppable>
 
-      </ContextWrapper>
+          <Droppable droppableId="droppable2">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+              >
+                {provided.placeholder}
+                <SelectionContainer>
+                <SelectionCard>
+                  {
+                    snapshot.isDraggingOver
+                    ? OnHoverDiv
+                    : CollapsedDiv(selection)
+                  }
+                </SelectionCard>
+                </SelectionContainer>
+              </div>
+            )}
+            </Droppable>
+        </ContextWrapper>
 		);
 	}
 }
 
-export default DragDropContext(HTML5Backend)(DnDContextComponent);

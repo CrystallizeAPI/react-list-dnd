@@ -74,10 +74,10 @@ export const UL = styled.ul`
 `;
 
 export const LI = styled.li`
-  padding: 10px 5px;
-  margin: 5px 5px;
-  background-color: white;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  // padding: 10px 5px;
+  // margin: 5px 5px;
+  // background-color: white;
+  // box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
 export const SelectionContainer = styled.div`
@@ -86,7 +86,6 @@ export const SelectionContainer = styled.div`
 
 export const SelectionCard = styled.div`
   margin: 20px 0px;
-  padding: 10px 50px;
   width: 400px;
   background-color: #c2e5e1;
 `;
@@ -163,3 +162,17 @@ export const ShowSelection = styled.div`
 export const SelectionHeader = styled.div`
   padding: 20px 0px;
 `;
+
+
+export const getItemStyle = (isDragging, draggableStyle) => ({
+  userSelect: 'none',
+  margin: `10px 0 10px 0`,
+  padding: isDragging ? '10px 0px 10px 30px' : '10px 30px',
+  // width: isDragging ? cardWidth : cardWidth,
+  opacity: isDragging ? '0.7' : '1',
+  boxShadow: isDragging
+    ? '0 4px 8px rgba(0,0,0,0.05)'
+    : '0 0 0 rgba(0,0,0,0.0)',
+  background: isDragging ? '#fff' : '#fff',
+  ...draggableStyle
+});
