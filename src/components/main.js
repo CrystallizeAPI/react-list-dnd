@@ -1,5 +1,6 @@
 import React from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import styled from 'styled-components';
 
 import DnDContext from './dnd-context';
@@ -30,15 +31,15 @@ export const Footer = styled.div`
 `;
 
 
-export default class MainComponent extends React.Component {
+class MainComponent extends React.Component {
 
   constructor(props) {
     super(props);
-		this.state = { isDragging: false };
+		this.state = { isDragging: false, something: null };
   }
 
   onDragStart = () =>  this.setState({ isDragging: true })
-  onDragEnd = () => this.setState({ isDragging: false })
+  onDragEnd = (something) => this.setState({ isDragging: false, something: something })
 	
 	render() {
 
@@ -46,15 +47,12 @@ export default class MainComponent extends React.Component {
       <AppWrapper>
         <Header />
         <Body>
-          <DragDropContext
-            onDragStart={this.onDragStart}
-            onDragEnd={this.onDragEnd}
-          >
-            <DnDContext isDragging={this.state.isDragging} />
-          </DragDropContext>
+          <DnDContext isDragging={this.state.isDragging} dragResult={this.state.something} />
         </Body>
         <Footer />
       </AppWrapper>
 		);
 	}
 }
+
+export default DragDropContext(HTML5Backend)(MainComponent);

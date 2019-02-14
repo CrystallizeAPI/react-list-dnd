@@ -1,15 +1,15 @@
 import React from 'react';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import SelectionCmp from './selection';
+import { DraggableList } from './list';
 
 import {
-  ContextWrapper, Card, UL, LI, SelectionContainer, SelectionCard, CollapsedView, DefaultView,
-  ShowSelection, SelectionHeader, SelectedCircleButton, getItemStyle
+  ContextWrapper, Card, UL
 } from './styles';
+
 
 export default class DnDContextComponent extends React.Component {
 	
 	constructor(props) {
-    console.log(props);
     super(props);
 		this.state = {
       open: null
@@ -19,9 +19,8 @@ export default class DnDContextComponent extends React.Component {
 	render() {
     const selection = [1];
     const isOver = false;
-    const { open } = this.state;
 
-    const data = [
+    const list = [
       {
         id: 1,
         key: 1,
@@ -39,104 +38,18 @@ export default class DnDContextComponent extends React.Component {
       }
     ];
 
-    const OnHoverDiv = (
-      <CollapsedView isHover={true}>
-        <DefaultView>
-          <div>
-            <p>Drop it like it's hot</p>
-          </div>
-        </DefaultView>
-      </CollapsedView>
-    );
-
-    const CollapsedDiv = data => (
-      <CollapsedView>
-        <DefaultView>
-          <div>
-            <p>Drag an item over this section to select</p>
-          </div>
-          {data.length > 0 ? (
-            <SelectedCircleButton
-              onClick={() => this.openSelection()}
-              spread={open === true}
-              contract={open === false}
-            >
-              {data.length}
-            </SelectedCircleButton>
-          ) : (
-            ''
-          )}
-        </DefaultView>
-      </CollapsedView>
-    );
-
-    const DraggableDiv = (item, index) => 
-      <Draggable
-        key={item.id}
-        draggableId={item.id}
-        index={index}
-      >
-        {(provided, snapshot) => (
-          <LI>
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              style={
-                getItemStyle(
-                  snapshot.isDragging,
-                  provided.draggableProps.style
-                )
-              }
-            >
-            {item.id}
-            </div>
-          </LI>
-        )}
-      </Draggable>
-
     return (
-
-        <ContextWrapper>
-          <h2>Beautiful React Drag and Drop</h2>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-              >
-              {provided.placeholder}
-              <Card>
-                <UL>
-                {
-                  data.map((item, index) => (
-                    DraggableDiv(item, index)
-                ))}
-                </UL>
-              </Card>
-              </div>
-            )}
-          </Droppable>
-
-          <Droppable droppableId="droppable2">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-              >
-                {provided.placeholder}
-                <SelectionContainer>
-                <SelectionCard>
-                  {
-                    snapshot.isDraggingOver
-                    ? OnHoverDiv
-                    : CollapsedDiv(selection)
-                  }
-                </SelectionCard>
-                </SelectionContainer>
-              </div>
-            )}
-            </Droppable>
-        </ContextWrapper>
+      <ContextWrapper>
+        <h2>Beautiful React Drag and Drop</h2>
+        <Card>
+          <UL>
+            {list.map((item, index) => (
+              <DraggableList item={item} key={index} />
+            ))}
+          </UL>
+        </Card>
+        <SelectionCmp selection={selection} />
+      </ContextWrapper>
 		);
 	}
 }
-
