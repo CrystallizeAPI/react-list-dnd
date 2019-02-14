@@ -26,7 +26,7 @@ export const colors = {
 };
 
 const circleAnimateDown = keyframes`
-  0% { transform: scale(17.5); color: #FFF; }
+  0% { transform: scale(10.5); color: #FFF; }
   80% { color: #FFF; }
   100% { transform: scale(1.5); color: #4c505b; }
 `;
@@ -34,17 +34,6 @@ const circleAnimateDown = keyframes`
 const circleAnimateUp = keyframes`
   0% { transform: scale(0.5); color: #FFF; }
   100% { transform: scale(20.5); color: #FFF; }
-`;
-
-const slideUp = keyframes`
-  0% { height: ${minimizedH}; background-color: white }
-  50% { background-color: white }
-  100% { height: ${maximizedH}; background-color: white }
-`;
-
-const slideDown = keyframes`
-  0% { height: ${maximizedH}; color: ${colors.frost}; display: none; }
-  100% { height: ${minimizedH}; color: ${colors.frost}; }
 `;
 
 const transitionToWhite = keyframes`
@@ -60,8 +49,9 @@ export const ContextWrapper = styled.div`
 `;
 
 export const Card = styled.div`
-  margin: 20px 0px;
-  padding: 10px 50px;
+  z-index: 5;
+  margin-top: 20px;
+  padding: 10px 50px 30px 50px;
   width: 400px;
   background-color: #c2e5e1;
 `;
@@ -81,11 +71,18 @@ export const LI = styled.li`
 `;
 
 export const SelectionContainer = styled.div`
-  margin-top: 20px;
+  border-top: 1px solid #f7a9af;
+  z-index: 4; #c2e5e1;
+`;
+
+export const PlaceHolder = styled.div`
+  z-index: 5;
+  background-color: #eaf6f5;
+  height: 200px;
+  width: 800px;
 `;
 
 export const SelectionCard = styled.div`
-  margin: 20px 0px;
   width: 400px;
   background-color: #c2e5e1;
 `;
@@ -108,27 +105,35 @@ export const SelectedCircleButton = styled.div`
   display: -webkit-inline-box;
   transform: scale(1.5);
   cursor: pointer;
-  z-index: 5;
+
+  ${is('spread')`
+    animation: ${circleAnimateUp} .2s forwards;
+    background-color: white;
+    animation-timing-function: cubic-bezier(.79,-0.08,.37,1.47);
+  `};
+
+  ${is('contract')`
+    animation: ${circleAnimateDown} .5s forwards;
+    animation-timing-function: cubic-bezier(.79,-0.08,.37,1.47);
+  `};
+
 `;
 
 export const CollapsedView = styled.div`
-  z-index: 1;
   height: ${minimizedH};
   display: grid;
   align-items: center;
   color: black;
   backgound-color: ${colors.frost};
   
-  ${is('isHover')`
+  ${is('isOver')`
     animation: ${transitionToWhite} 0.7s forwards;
     animation-timing-function: cubic-bezier(0,1.28,.74,.7);
   `};
-
 `;
 
 export const DefaultView = styled.div`
   display: inline;
-  z-index: 0;
   text-align: center;
 
   p {

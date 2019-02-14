@@ -7,7 +7,7 @@ const spec = {
   drop(props, monitor, component) {
     // Obtain the dragged item
     const item = monitor.getItem();
-    console.log(item);
+    if (item) component.updateComponent(item);
   }
 };  
 
@@ -27,18 +27,24 @@ class SelectionCmp extends React.Component {
     console.log(props);
     super(props);
 		this.state = {
-      open: null
+      open: null,
+      selection: []
     };
   }
 
+  contractCircle = () => this.setState({ open: false });
+
+  updateComponent = (item) => {
+    this.setState({ open: false, selection: this.state.selection.concat(item) });
+  }
 
   render() {
 
-    const { isDraggingOver, selection, connectDropTarget } = this.props;
-    console.log({isDraggingOver, selection});
+    const { connectDropTarget, isOver } = this.props;
+    const { open, selection } = this.state;
 
     const OnHoverDiv = (  
-      <CollapsedView>
+      <CollapsedView isOver={isOver}>
         <DefaultView>
           <div>
             <p>Drop it like it's hot</p>
@@ -55,7 +61,6 @@ class SelectionCmp extends React.Component {
           </div>
           {data.length > 0 ? (
             <SelectedCircleButton
-              onClick={() => this.openSelection()}
               spread={open === true}
               contract={open === false}
             >
@@ -73,7 +78,7 @@ class SelectionCmp extends React.Component {
         <SelectionContainer>
           <SelectionCard>
             {
-              isDraggingOver
+              isOver
               ? OnHoverDiv
               : CollapsedDiv(selection)
             }

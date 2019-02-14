@@ -3,7 +3,7 @@ import SelectionCmp from './selection';
 import { DraggableList } from './list';
 
 import {
-  ContextWrapper, Card, UL
+  ContextWrapper, Card, UL, PlaceHolder
 } from './styles';
 
 
@@ -11,14 +11,9 @@ export default class DnDContextComponent extends React.Component {
 	
 	constructor(props) {
     super(props);
-		this.state = {
-      open: null
-    };
   }
 	
 	render() {
-    const selection = [1];
-    const isOver = false;
 
     const list = [
       {
@@ -40,7 +35,7 @@ export default class DnDContextComponent extends React.Component {
 
     return (
       <ContextWrapper>
-        <h2>Beautiful React Drag and Drop</h2>
+        <h2>React Drag and Drop Demo</h2>
         <Card>
           <UL>
             {list.map((item, index) => (
@@ -48,7 +43,8 @@ export default class DnDContextComponent extends React.Component {
             ))}
           </UL>
         </Card>
-        <SelectionCmp selection={selection} />
+        <SelectionCmp />
+        <PlaceHolder />
       </ContextWrapper>
 		);
 	}

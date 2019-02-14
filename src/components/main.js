@@ -35,19 +35,14 @@ class MainComponent extends React.Component {
 
   constructor(props) {
     super(props);
-		this.state = { isDragging: false, something: null };
   }
 
-  onDragStart = () =>  this.setState({ isDragging: true })
-  onDragEnd = (something) => this.setState({ isDragging: false, something: something })
-	
 	render() {
-
 		return (
       <AppWrapper>
         <Header />
         <Body>
-          <DnDContext isDragging={this.state.isDragging} dragResult={this.state.something} />
+          <DnDContext />
         </Body>
         <Footer />
       </AppWrapper>
