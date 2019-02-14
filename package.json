@@ -5,6 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/meetdave3/list-dnd.git",
   "license": "MIT",
+  "homepage": "https://CrystallizeAPI.github.io/react-list-dnd",
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
@@ -12,6 +13,7 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "gh-pages": "^2.0.1",
     "react": "^16.7.0",
     "react-dnd": "7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
@@ -24,7 +26,8 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --open --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "html-loader": "^0.5.5",
