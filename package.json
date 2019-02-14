@@ -1,7 +1,7 @@
 {
   "name": "react-list-dnd",
   "version": "1.0.0",
-  "description": "Basic React list DND with awesome animations",
+  "description": "Basic React list DnD with animations",
   "main": "index.js",
   "repository": "https://github.com/meetdave3/list-dnd.git",
   "license": "MIT",
@@ -13,7 +13,6 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
     "react": "^16.7.0",
-    "react-beautiful-dnd": "10.0.4",
     "react-dnd": "7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
     "react-dom": "^16.7.0",
